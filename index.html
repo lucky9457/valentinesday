@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise 💖</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ========== GLOBAL STYLES ========== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    color: rgba(255, 0, 100, 0.6);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    color: #ff4d6d;
+    font-size: 28px;
+}
+
+.question {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.yes-btn {
+    background: #ff4d6d;
+    color: white;
+    width: auto; 
+    margin-right: 20px;
+}
+
+.no-btn {
+    background: #aaa;
+    color: white;
+    position: relative;
+}
+
+button {
+    width: 100%;
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.no-btn {
+    width: auto;   /* Prevent No button from stretching */
+}
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Final Screen */
+.final {
+    display: none;
+    text-align: center;
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 32px;
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.message{
+    margin-top: 15px;
+    font-size: 16px;
+    color: #ff0000;
+    min-height: 24px; /* Prevent layout shift */
+}
+
+.green{
+    color: green;
+}
+
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: red;
+    top: -10px;
+    animation: fall 5s linear infinite;
+}
+
+@keyframes fall {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(100vh);}
+}
+
+/* Responsive */
+/* @media(max-width:500px){
+    .card {
+        padding: 25px;
+    }
+} */
+ /* Responsive Improvements */
+@media (max-width: 768px) {
+
+    body {
+        padding: 15px;
+        overflow: hidden;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 100%;
+        padding: 25px 20px;
+        border-radius: 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .question {
+        font-size: 16px;
+    }
+
+    button {
+        width: 100%;
+        margin: 8px 0;
+        font-size: 15px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 400px) {
+
+    .card {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .question {
+        font-size: 15px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+
+#confettiContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: fall linear forwards;
+} */
+</style>
+</head>
+<body>
+
+<!-- Floating Hearts -->
+<script>
+for (let i = 0; i < 20; i++) {
+    let heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(heart);
+}
+</script>
+
+<!-- Card -->
+<div class="card" id="card">
+    <h1>Hey My Love 💕</h1>
+    <div class="question" id="question">Will you be my Valentine? 💖</div>
+    <div id="message" class="message"></div>
+    <button class="yes-btn" onclick="handleYes()">Yes 💖</button>
+    <button class="no-btn" id="noBtn" onclick="handleNo()">No 😅</button>
+</div>
+
+<!-- Final Screen -->
+<div class="final" id="finalMessage">
+    Happy Valentine’s Day, My Love ❤️
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const questions = [
+    "Will you be my Valentine? 💖",
+    "Do you love me more than chocolate? 🍫",
+    "Will you watch romantic movies with me? 🎬💕",
+    "Can I steal you for a lifetime? 😘",
+    "Will you be the reason for my smile every day? 😊",
+    "Will you go on a date with me? 🌹",
+    "Do you promise to stay with me forever? 💍",
+    "finally, will you be mine? 💕"
+];
+
+let currentQuestion = 0;
+let noClickCount = 0;
+
+
+const questionElement = document.getElementById("question");
+const messageElement = document.getElementById("message");
+const noBtn = document.getElementById("noBtn");
+const finalScreen = document.getElementById("finalMessage");
+const card = document.getElementById("card");
+const bgMusic = document.getElementById("bgMusic");
+
+function handleYes() {
+    
+    // noClickCount = 0;
+    // messageElement.innerHTML = "You just made me the happiest person alive! 💕";
+    // messageElement.classList.add("green");
+    
+    // Store current No count BEFORE resetting
+    const previousNoCount = noClickCount;
+
+    if (previousNoCount === 0) {
+        messageElement.innerHTML = "You just made me the happiest person alive! 💕";
+        messageElement.classList.add("green");
+    } else {
+        messageElement.innerHTML = "After all those No’s… you finally said Yes 😏💖";
+        messageElement.classList.add("green");
+    }
+    
+
+    setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            questionElement.innerHTML = questions[currentQuestion];
+            messageElement.innerHTML = "";
+            messageElement.classList.remove("green");
+            noClickCount = 0;
+        } else {
+            showFinalScreen();
+        }
+    }, 1200);
+}
+
+function handleNo() {
+    noClickCount++;
+
+    const messages = [
+        "Are you sure? 🥺",
+        "Think carefully… I’m watching 👀",
+        "You can’t say no to me 😘❤️",
+        "Try again… but choose wisely 😌💕",
+        "Hmm… wrong answer my love 😏💖",
+        "That button seems broken for you 😜✨"
+    ];
+
+    if (noClickCount <= messages.length) {
+        messageElement.innerHTML = messages[noClickCount - 1];
+    } else {
+        messageElement.innerHTML = "Nice try 😎 but still no escape 💘";
+    }
+
+    moveNoButton();
+}
+
+// function moveNoButton() {
+
+//     const btnWidth = noBtn.offsetWidth;
+//     const btnHeight = noBtn.offsetHeight;
+
+//     const maxX = window.innerWidth - btnWidth;
+//     const maxY = window.innerHeight - btnHeight;
+
+//     noBtn.style.position = "fixed";   // Important change
+//     noBtn.style.left = Math.random() * maxX + "px";
+//     noBtn.style.top = Math.random() * maxY + "px";
+// }
+
+function moveNoButton() {
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - 5;
+    const maxY = window.innerHeight - btnHeight - 5;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.width = "auto";     // Prevent full-width bug
+    noBtn.style.margin = "0";       // Remove mobile margin
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+}
+
+
+
+function showFinalScreen() {
+    card.style.display = "none";
+    finalScreen.style.display = "block";
+    bgMusic.play();
+    launchConfetti();
+}
+
+function launchConfetti() {
+    for (let i = 0; i < 100; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background = 
+            `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(confetti);
+    }
+}
+</script>
+
+</body>
+</html>
